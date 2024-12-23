@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
     "google-map-react": "^2.2.1",
     "leaflet": "^1.9.4",
@@ -17,6 +18,7 @@
     "lottie-react": "^2.4.0",
     "match-sorter": "^8.0.0",
     "react": "^18.3.1",
+    "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
     "react-icons": "^5.4.0",

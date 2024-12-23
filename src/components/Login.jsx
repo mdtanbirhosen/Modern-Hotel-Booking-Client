@@ -77,12 +77,12 @@ const Login = () => {
                             <Link  className="font-semibold link-hover">Forgotten Password ?</Link>
                         </div>
                     </div>
-                    <button type="submit" className="font-semibold text-xl py-4 w-full bg-primary-color hover:bg-secondary-color rounded-xl text-white  px-3 sm:px-5  hover:bg-black">Login</button>
+                    <button type="submit" className="font-semibold text-xl py-4 w-full bg-primary-color hover:bg-secondary-color rounded-xl text-white  px-3 sm:px-5  ">Login</button>
                 </form>
                 <p className="font-semibold mt-7 text-center">Don’t Have An Account ? <Link to={'/authenticationPage/registration'} className="text-red-500 link-hover">Register</Link></p>
                 <div className="divider">OR</div>
                 <div className="">
-                    <button onClick={handleSigninWithGoogle} className="btn text-white font-bold text-lg bg-primary-color hover:bg-secondary-color   px-3 sm:px-5 py-2 rounded-xl hover:bg-black"><FcGoogle className="text-3xl"></FcGoogle> Sign in with Google</button>
+                    <button onClick={handleSigninWithGoogle} className="btn text-white font-bold text-lg bg-primary-color hover:bg-secondary-color   px-3 sm:px-5 py-2 rounded-xl "><FcGoogle className="text-3xl"></FcGoogle> Sign in with Google</button>
                 </div>
             </div>
 

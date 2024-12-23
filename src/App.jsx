@@ -6,10 +6,16 @@ function App() {
 
   return (
     <div>
-      <Toaster
-       position="top-right"></Toaster>
-    <NavBar></NavBar>
-    <Outlet></Outlet>
+      <Toaster position="top-right"></Toaster>
+
+
+
+      <NavBar></NavBar>
+
+      <div className="max-w-7xl mx-auto">
+        <Outlet></Outlet>
+      </div>
+
       <Footer></Footer>
     </div>
   )
