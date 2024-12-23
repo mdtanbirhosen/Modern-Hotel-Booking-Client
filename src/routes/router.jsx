@@ -4,6 +4,9 @@ import Homepage from "../pages/Homepage";
 import AuthenticationPage from "../pages/Authentication";
 import Login from "../components/Login";
 import Registration from "../components/Registration";
+import Rooms from "../pages/Rooms";
+import MyBookings from "../pages/MyBookings";
+import PrivateRoutes from "./PrivateRoutes";
 
 const router = createBrowserRouter([
     {
@@ -29,6 +32,14 @@ const router = createBrowserRouter([
                     }
                 ]
 
+            },
+            {
+                path:'/rooms',
+                element:<Rooms></Rooms>
+            },
+            {
+                path:'/myBookings',
+                element:<PrivateRoutes><MyBookings></MyBookings></PrivateRoutes>
             }
             
         ]

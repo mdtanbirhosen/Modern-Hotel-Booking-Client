@@ -2,7 +2,8 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate,  } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
-import Swal from 'sweetalert2'
+// import Swal from 'sweetalert2'
+// import toast from "react-hot-toast";
 const Login = () => {
     const { loginUser, loginUserWithGoogle } = useContext(AuthContext)
     
@@ -24,7 +25,8 @@ const Login = () => {
             })
             .catch(error => {
                 console.log(error)
-
+                // toast.error(error.message)
+                
             })
     }
     // sign in with google
@@ -32,11 +34,11 @@ const Login = () => {
         loginUserWithGoogle()
             .then(result => {
                 console.log(result)
-                Swal.fire({
-                    title: "Good job!",
-                    text: "You clicked the button!",
-                    icon: "success"
-                  });
+                // Swal.fire({
+                //     title: "Good job!",
+                //     text: "You clicked the button!",
+                //     icon: "success"
+                //   });
                 navigate(location?.state ? location.state : '/')
             })
     }
@@ -77,7 +79,7 @@ const Login = () => {
                     </div>
                     <button type="submit" className="font-semibold text-xl py-4 w-full bg-primary-color hover:bg-secondary-color rounded-xl text-white  px-3 sm:px-5  hover:bg-black">Login</button>
                 </form>
-                <p className="font-semibold mt-7 text-center">Don’t Have An Account ? <Link to={'/authentication/register'} className="text-red-500 link-hover">Register</Link></p>
+                <p className="font-semibold mt-7 text-center">Don’t Have An Account ? <Link to={'/authenticationPage/registration'} className="text-red-500 link-hover">Register</Link></p>
                 <div className="divider">OR</div>
                 <div className="">
                     <button onClick={handleSigninWithGoogle} className="btn text-white font-bold text-lg bg-primary-color hover:bg-secondary-color   px-3 sm:px-5 py-2 rounded-xl hover:bg-black"><FcGoogle className="text-3xl"></FcGoogle> Sign in with Google</button>

@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { auth } from "../firebase/firebase.config";
+import {toast} from "react-hot-toast"
 
 
 
@@ -48,7 +49,7 @@ const AuthProvider = ({ children }) => {
             return await signInWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.error("Error logging in:", error.message);
-            // toast.error('Invalid Email and Password')
+            toast.error('Invalid Email and Password')
             throw error;
         } finally {
             setLoading(false);
