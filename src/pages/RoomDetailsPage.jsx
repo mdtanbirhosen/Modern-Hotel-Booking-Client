@@ -41,7 +41,7 @@ const RoomDetailsPage = () => {
 
         const bookingDetails = {
             roomId: id,
-            userEmail: user.email,
+            userEmail: user?.email,
             bookingDate,
             price,
         };

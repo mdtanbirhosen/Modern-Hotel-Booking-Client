@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { AuthContext } from '../provider/AuthProvider';
 
 const MyBookings = () => {
+    const {user } = useContext(AuthContext)
     const [bookings, setBookings] = useState([]);
     const baseURL = import.meta.env.VITE_baseLink; // Base URL from .env file
 
@@ -9,7 +11,7 @@ const MyBookings = () => {
         // Fetch user's bookings from the server
         const fetchBookings = async () => {
             try {
-                const response = await fetch(`${baseURL}/bookings`);
+                const response = await fetch(`${baseURL}/bookings/?email=${user?.email}`);
                 const data = await response.json();
                 setBookings(data || []); // Default to an empty array if data is null/undefined
             } catch (error) {
@@ -18,7 +20,7 @@ const MyBookings = () => {
             }
         };
         fetchBookings();
-    }, [baseURL]);
+    }, [baseURL, user?.email]);
 
     const handleCancel = async (id) => {
         const confirm = window.confirm('Are you sure you want to cancel this booking?');
