@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { AuthContext } from "../provider/AuthProvider";
 
 const RoomDetailsPage = () => {
-    const {user}= useContext(AuthContext)
+    const { user } = useContext(AuthContext)
     const { id } = useParams();
 
     const [room, setRoom] = useState({});
@@ -33,6 +33,7 @@ const RoomDetailsPage = () => {
     const { name, image, description, features, availability, price, rating } = room;
 
     // Handle Booking Confirmation
+    // Handle Booking Confirmation
     const handleBooking = async () => {
         if (!bookingDate) {
             toast.error("Please select a booking date.");
@@ -44,9 +45,12 @@ const RoomDetailsPage = () => {
             userEmail: user?.email,
             bookingDate,
             price,
+            image,
+            name,
         };
 
         try {
+            // Send booking details to the server
             const response = await fetch(`${import.meta.env.VITE_baseLink}/bookings`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -54,16 +58,32 @@ const RoomDetailsPage = () => {
             });
 
             if (response.ok) {
-                toast.success("Room booked successfully!");
-                setShowModal(false);
-                setRoom((prev) => ({ ...prev, availability: false })); // Update availability locally
+                // Update the room availability in the database
+                const updateAvailabilityResponse = await fetch(
+                    `${import.meta.env.VITE_baseLink}/rooms/${id}/availability`,
+                    {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ availability: false }),
+                    }
+                );
+
+                if (updateAvailabilityResponse.ok) {
+                    toast.success("Room booked successfully!");
+                    setShowModal(false);
+                    setRoom((prev) => ({ ...prev, availability: false })); // Update availability locally
+                } else {
+                    toast.error("Failed to update room availability.");
+                }
             } else {
                 toast.error("Failed to book room.");
             }
         } catch (error) {
             console.error("Error booking room:", error);
+            toast.error("An error occurred. Please try again.");
         }
     };
+
 
     return (
         <div>

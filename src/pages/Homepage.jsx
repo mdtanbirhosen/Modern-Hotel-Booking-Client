@@ -1,11 +1,14 @@
-import Map from "../components/Map";
+import Banner from "../components/Banner";
+import MapContent from "../components/MapContent";
 
 const Homepage = () => {
     return (
         <div>
-            This is home page
             <div>
-            <Map></Map>
+                <Banner></Banner>
+            </div>
+            <div>
+            <MapContent></MapContent>
             </div>
         </div>
     );

@@ -1,22 +1,29 @@
 import { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { AuthContext } from '../provider/AuthProvider';
+import ReactModal from 'react-modal';
+import Rating from 'react-rating-stars-component';
 
 const MyBookings = () => {
-    const {user } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
-    const baseURL = import.meta.env.VITE_baseLink; // Base URL from .env file
+    const [showModal, setShowModal] = useState(false);
+    const [currentBookingId, setCurrentBookingId] = useState(null);
+    const [currentRoomId, setCurrentRoomId] = useState(null);
+    const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
+    const baseURL = import.meta.env.VITE_baseLink;
 
     useEffect(() => {
-        // Fetch user's bookings from the server
+        // Fetch user's bookings
         const fetchBookings = async () => {
             try {
                 const response = await fetch(`${baseURL}/bookings/?email=${user?.email}`);
                 const data = await response.json();
-                setBookings(data || []); // Default to an empty array if data is null/undefined
+                setBookings(data || []);
             } catch (error) {
                 console.error('Error fetching bookings:', error);
-                toast.error('Failed to fetch bookings. Please try again.');
+                toast.error('Failed to fetch bookings.');
             }
         };
         fetchBookings();
@@ -35,6 +42,45 @@ const MyBookings = () => {
         } catch (error) {
             console.error('Error canceling booking:', error);
             toast.error('Failed to cancel booking.');
+        }
+    };
+
+    const openReviewModal = (id, roomId) => {
+        setCurrentBookingId(id);
+        setRating(0);
+        setComment('');
+        setShowModal(true);
+        setCurrentRoomId(roomId)
+    };
+
+    const handleSubmitReview = async () => {
+        if (!rating || !comment) {
+            toast.error('Please provide a rating and comment.');
+            return;
+        }
+
+        try {
+            const response = await fetch(`${baseURL}/reviews`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    bookingId: currentBookingId,
+                    roomId: currentRoomId,
+                    username: user?.displayName,
+                    rating,
+                    comment,
+                }),
+            });
+
+            if (response.ok) {
+                toast.success('Review added successfully!');
+                setShowModal(false);
+            } else {
+                throw new Error('Failed to add review');
+            }
+        } catch (error) {
+            console.error('Error submitting review:', error);
+            toast.error('Failed to submit review.');
         }
     };
 
@@ -65,33 +111,6 @@ const MyBookings = () => {
         }
     };
 
-    const handleReview = async (id) => {
-        const rating = prompt('Enter your rating (1-5):');
-        const comment = prompt('Enter your review:');
-        if (!rating || !comment) return;
-
-        try {
-            const response = await fetch(`${baseURL}/reviews`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    bookingId: id,
-                    rating: parseInt(rating),
-                    comment,
-                }),
-            });
-
-            if (response?.ok) {
-                toast.success('Review added successfully!');
-            } else {
-                throw new Error('Failed to add review');
-            }
-        } catch (error) {
-            console.error('Error submitting review:', error);
-            toast.error('Failed to submit review.');
-        }
-    };
-
     return (
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-2xl font-bold text-center mb-6">My Bookings</h1>
@@ -111,8 +130,8 @@ const MyBookings = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {bookings?.map((booking, index) => (
-                                <tr key={booking?._id} className="hover:bg-gray-100">
+                            {bookings.map((booking, index) => (
+                                <tr key={booking._id} className="hover:bg-gray-100">
                                     <td>{index + 1}</td>
                                     <td>
                                         <img
@@ -121,24 +140,21 @@ const MyBookings = () => {
                                             className="w-16 h-16 rounded-lg"
                                         />
                                     </td>
-                                    <td>{booking?.roomName || 'No Name'}</td>
+                                    <td>{booking?.name || 'No Name'}</td>
                                     <td>${booking?.price || 'N/A'}</td>
                                     <td>{booking?.bookingDate || 'Not Specified'}</td>
                                     <td>
                                         <button
-                                            onClick={() => handleCancel(booking?._id)}
+                                            onClick={() => handleCancel(booking._id)}
                                             className="btn btn-error btn-sm mr-2"
                                         >
                                             Cancel
                                         </button>
                                         <button
-                                            onClick={() => handleUpdateDate(booking?._id)}
-                                            className="btn btn-info btn-sm mr-2"
-                                        >
-                                            Update Date
-                                        </button>
+                                        onClick={()=>handleUpdateDate(booking?._id)}
+                                        className='btn btn-info btn-sm mr-2'>Update Date</button>
                                         <button
-                                            onClick={() => handleReview(booking?._id)}
+                                            onClick={() => openReviewModal(booking._id, booking.roomId)}
                                             className="btn btn-success btn-sm"
                                         >
                                             Review
@@ -150,6 +166,52 @@ const MyBookings = () => {
                     </table>
                 </div>
             )}
+
+            {/* Review Modal */}
+            <ReactModal
+                isOpen={showModal}
+                onRequestClose={() => setShowModal(false)}
+                ariaHideApp={false}
+                className="bg-white p-6 rounded-lg shadow-md w-96 mx-auto mt-20"
+            >
+                <h2 className="text-xl font-bold mb-4">Submit a Review</h2>
+                <div className="mb-4">
+                    <label className="block font-medium mb-2">Username</label>
+                    <input
+                        type="text"
+                        value={user?.displayName}
+                        readOnly
+                        className="input input-bordered w-full"
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block font-medium mb-2">Rating</label>
+                    <Rating
+                        count={5}
+                        size={24}
+                        activeColor="#ffd700"
+                        value={rating}
+                        onChange={(newRating) => setRating(newRating)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label className="block font-medium mb-2">Comment</label>
+                    <textarea
+                        className="textarea textarea-bordered w-full"
+                        rows="3"
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
+                </div>
+                <div className="flex justify-end">
+                    <button onClick={() => setShowModal(false)} className="btn btn-secondary mr-2">
+                        Cancel
+                    </button>
+                    <button onClick={handleSubmitReview} className="btn btn-primary">
+                        Submit
+                    </button>
+                </div>
+            </ReactModal>
         </div>
     );
 };
