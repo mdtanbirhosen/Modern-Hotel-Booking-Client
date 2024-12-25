@@ -3,7 +3,9 @@ import { toast } from 'react-hot-toast';
 import { AuthContext } from '../provider/AuthProvider';
 import ReactModal from 'react-modal';
 import Rating from 'react-rating-stars-component';
-
+import { TbMapCancel } from "react-icons/tb";
+import { TfiCommentsSmiley } from "react-icons/tfi";
+import { MdOutlineUpdate } from "react-icons/md";
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
@@ -112,7 +114,7 @@ const MyBookings = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
+        <div className=" ">
             <h1 className="text-2xl font-bold text-center mb-6">My Bookings</h1>
             {bookings?.length === 0 ? (
                 <p className="text-center text-gray-500">You have no bookings yet.</p>
@@ -122,7 +124,7 @@ const MyBookings = () => {
                         <thead className="bg-gray-800 text-white">
                             <tr>
                                 <th>#</th>
-                                <th>Image</th>
+                                <th className='md:flex hidden'>Image</th>
                                 <th>Room Name</th>
                                 <th>Price</th>
                                 <th>Booking Date</th>
@@ -132,8 +134,8 @@ const MyBookings = () => {
                         <tbody>
                             {bookings.map((booking, index) => (
                                 <tr key={booking._id} className="hover:bg-gray-100">
-                                    <td>{index + 1}</td>
-                                    <td>
+                                    <td className=''>{index + 1}</td>
+                                    <td className='md:flex hidden'>
                                         <img
                                             src={booking?.image}
                                             alt={booking?.roomName || 'Room'}
@@ -143,22 +145,32 @@ const MyBookings = () => {
                                     <td>{booking?.name || 'No Name'}</td>
                                     <td>${booking?.price || 'N/A'}</td>
                                     <td>{booking?.bookingDate || 'Not Specified'}</td>
-                                    <td>
-                                        <button
-                                            onClick={() => handleCancel(booking._id)}
-                                            className="btn btn-error btn-sm mr-2"
-                                        >
-                                            Cancel
-                                        </button>
-                                        <button
-                                        onClick={()=>handleUpdateDate(booking?._id)}
-                                        className='btn btn-info btn-sm mr-2'>Update Date</button>
-                                        <button
-                                            onClick={() => openReviewModal(booking._id, booking.roomId)}
-                                            className="btn btn-success btn-sm"
-                                        >
-                                            Review
-                                        </button>
+                                    <td className='pr-0'>
+                                        <div>
+                                            <button
+                                                onClick={() => handleCancel(booking._id)}
+                                                className="btn btn-error btn-sm mr-2"
+                                            >
+                                                <TbMapCancel className='md:hidden flex' />
+                                                <span className='md:flex hidden'>Cancel</span>
+                                            </button>
+                                            <button
+                                                onClick={() => handleUpdateDate(booking?._id)}
+                                                className='btn btn-info btn-sm mr-2'>
+
+                                                <MdOutlineUpdate className='md:hidden flex' />
+                                                <span className='md:flex hidden'>Update Date</span>
+
+                                            </button>
+                                            <button
+                                                onClick={() => openReviewModal(booking._id, booking.roomId)}
+                                                className="btn btn-success btn-sm"
+                                            >
+                                                <TfiCommentsSmiley className='md:hidden flex' />
+                                                <span className='md:flex hidden'>Review</span>
+
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

@@ -22,7 +22,6 @@ const RoomDetailsPage = () => {
                 );
                 const data = await response.json();
                 setRoom(data);
-                setReviews(data.reviews || []);
             } catch (error) {
                 console.error("Error fetching room details:", error);
             }

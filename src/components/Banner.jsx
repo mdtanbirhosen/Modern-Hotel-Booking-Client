@@ -37,7 +37,7 @@ const slides = [
 
 const Banner = () => {
     return (
-        <div className='pb-10'>
+        <div className='pb-10 '>
             <Swiper
                 spaceBetween={30}
                 centeredSlides={true}

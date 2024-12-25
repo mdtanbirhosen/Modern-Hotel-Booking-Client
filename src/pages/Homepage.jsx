@@ -1,15 +1,22 @@
-import Banner from "../components/Banner";
+
+import FeaturedRooms from "../components/FeaturedRooms";
 import MapContent from "../components/MapContent";
 
 const Homepage = () => {
     return (
         <div>
-            <div>
-                <Banner></Banner>
-            </div>
-            <div>
-            <MapContent></MapContent>
-            </div>
+            
+            <section>
+                <MapContent></MapContent>
+            </section>
+            <section>
+                <FeaturedRooms></FeaturedRooms>
+            </section>
+
+            {/* two extra sections here */}
+
+
+
         </div>
     );
 };
