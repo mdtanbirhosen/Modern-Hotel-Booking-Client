@@ -60,7 +60,10 @@ const MyBookings = () => {
             toast.error('Please provide a rating and comment.');
             return;
         }
-
+    
+        // Get the current date and time
+        const reviewDate = new Date().toISOString();
+    
         try {
             const response = await fetch(`${baseURL}/reviews`, {
                 method: 'POST',
@@ -71,9 +74,10 @@ const MyBookings = () => {
                     username: user?.displayName,
                     rating,
                     comment,
+                    date: reviewDate, // Include the date
                 }),
             });
-
+    
             if (response.ok) {
                 toast.success('Review added successfully!');
                 setShowModal(false);
@@ -85,6 +89,7 @@ const MyBookings = () => {
             toast.error('Failed to submit review.');
         }
     };
+    
 
     const handleUpdateDate = async (id) => {
         const newDate = prompt('Enter the new booking date (YYYY-MM-DD):');

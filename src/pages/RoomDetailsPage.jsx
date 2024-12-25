@@ -1,14 +1,16 @@
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 // import { format } from "date-fns";
 import toast from "react-hot-toast";
 import { AuthContext } from "../provider/AuthProvider";
+import Review from "../components/Review";
 
 const RoomDetailsPage = () => {
     const { user } = useContext(AuthContext)
     const { id } = useParams();
 
     const [room, setRoom] = useState({});
+    // eslint-disable-next-line no-unused-vars
     const [reviews, setReviews] = useState([]);
     const [bookingDate, setBookingDate] = useState("");
     const [showModal, setShowModal] = useState(false);
@@ -22,12 +24,20 @@ const RoomDetailsPage = () => {
                 );
                 const data = await response.json();
                 setRoom(data);
+
+                if (response.ok) {
+                    const getReviews = await fetch(`${import.meta.env.VITE_baseLink}/reviews/${id}`)
+                    const reviewsData = await getReviews.json();
+                    setReviews(reviewsData)
+                    console.log(reviewsData)
+                }
+
             } catch (error) {
                 console.error("Error fetching room details:", error);
             }
         };
         fetchRoomDetails();
-    }, [id]);
+    }, [id, room._id]);
 
     const { name, image, description, features, availability, price, rating } = room;
 
@@ -92,10 +102,10 @@ const RoomDetailsPage = () => {
                     <img src={image} alt={name} />
                 </div>
                 <div className="w-1/2 space-y-4">
-                    <h2 className="flex items-center text-3xl font-bold text-primary-color">
-                        {name}{" "}
+                    <h2 className="md:flex items-center text-3xl font-bold text-primary-color ">
+                        {name}
                         <span
-                            className={`ml-3 text-base badge ${availability ? "bg-green-400" : "bg-red-400"
+                            className={`md:ml-3 text-base badge ${availability ? "bg-green-400" : "bg-red-400"
                                 }`}
                         >
                             {availability ? "Available" : "Not Available"}
@@ -120,14 +130,22 @@ const RoomDetailsPage = () => {
                             ))}
                         </ul>
                     </div>
-                    <button
-                        onClick={() => setShowModal(true)}
-                        disabled={!availability}
-                        className={`font-semibold text-lg ${availability ? "text-primary-color" : "text-gray-400"
-                            }`}
-                    >
-                        Book Now
-                    </button>
+                    {user ?
+                        <button
+                            onClick={() => setShowModal(true)}
+                            disabled={!availability}
+                            className={`font-semibold text-lg ${availability ? "text-primary-color" : "text-gray-400"
+                                }`}
+                        >
+                            Book Now
+                        </button> :
+                        <Link to={'/authenticationPage'}>
+                            <button
+                                className={`font-semibold text-lg ${availability ? "text-primary-color" : "text-gray-400"
+                                    }`}
+                            >
+                                Book Now
+                            </button></Link>}
                 </div>
             </div>
 
@@ -135,18 +153,20 @@ const RoomDetailsPage = () => {
             <div className="mt-10">
                 <h2 className="text-2xl font-semibold">Reviews</h2>
                 {reviews.length > 0 ? (
-                    reviews.map((review, index) => (
-                        <div key={index} className="p-4 border border-gray-200 rounded-md my-2">
-                            <p>
-                                <strong>Rating:</strong> {review.rating}/5
-                            </p>
-                            <p>
-                                <strong>Comment:</strong> {review.comment}
-                            </p>
-                        </div>
+                    reviews.map((review) => (
+                        <Review key={review._id} review={review}></Review>
                     ))
                 ) : (
-                    <p className="text-gray-500">No reviews available for this room.</p>
+                    <div>
+                        <h3 className="text-gray-500">No reviews available for this room.</h3>
+                        <p>Give us review</p>
+                        <p>1. At first You have to login</p>
+                        <p>2. Then Book the room </p>
+                        <p>3. Go to My bookings page</p>
+                        <p>4. Click on Review button </p>
+                        <p>5. Write your feedback </p>
+                    </div>
+
                 )}
             </div>
 
