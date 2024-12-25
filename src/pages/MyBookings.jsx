@@ -6,6 +6,7 @@ import Rating from 'react-rating-stars-component';
 import { TbMapCancel } from "react-icons/tb";
 import { TfiCommentsSmiley } from "react-icons/tfi";
 import { MdOutlineUpdate } from "react-icons/md";
+import moment from 'moment';
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
@@ -31,16 +32,44 @@ const MyBookings = () => {
         fetchBookings();
     }, [baseURL, user?.email]);
 
-    const handleCancel = async (id) => {
+    const handleCancel = async (id, updateTo, bookingDate) => {
+        // Parse the booking date
+        const bookingMoment = moment(bookingDate, 'YYYY-MM-DD');
+        const currentMoment = moment(); // Current date and time
+        const cancelDeadline = bookingMoment.subtract(1, 'days'); // 1 day before the booking date
+    
+        // Check if the current date is past the allowed cancellation deadline
+        if (currentMoment.isAfter(cancelDeadline)) {
+            toast.error('You can only cancel bookings at least 1 day before the booking date.');
+            return;
+        }
+    
         const confirm = window.confirm('Are you sure you want to cancel this booking?');
         if (!confirm) return;
-
+    
         try {
-            await fetch(`${baseURL}/bookings/${id}`, {
+            const deleteBooking = await fetch(`${baseURL}/bookings/${id}`, {
                 method: 'DELETE',
             });
-            setBookings((prev) => prev.filter((booking) => booking?._id !== id));
-            toast.success('Booking canceled successfully!');
+    
+            if (deleteBooking.ok) {
+                // Update room availability to true
+                const updateAvailabilityResponse = await fetch(
+                    `${import.meta.env.VITE_baseLink}/rooms/${updateTo}/availability`,
+                    {
+                        method: "PATCH",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ availability: true }),
+                    }
+                );
+    
+                if (updateAvailabilityResponse.ok) {
+                    setBookings((prev) => prev.filter((booking) => booking?._id !== id));
+                    toast.success('Booking canceled successfully!');
+                }
+            } else {
+                throw new Error('Failed to delete booking');
+            }
         } catch (error) {
             console.error('Error canceling booking:', error);
             toast.error('Failed to cancel booking.');
@@ -60,10 +89,10 @@ const MyBookings = () => {
             toast.error('Please provide a rating and comment.');
             return;
         }
-    
+
         // Get the current date and time
         const reviewDate = new Date().toISOString();
-    
+
         try {
             const response = await fetch(`${baseURL}/reviews`, {
                 method: 'POST',
@@ -77,7 +106,7 @@ const MyBookings = () => {
                     date: reviewDate, // Include the date
                 }),
             });
-    
+
             if (response.ok) {
                 toast.success('Review added successfully!');
                 setShowModal(false);
@@ -89,7 +118,7 @@ const MyBookings = () => {
             toast.error('Failed to submit review.');
         }
     };
-    
+
 
     const handleUpdateDate = async (id) => {
         const newDate = prompt('Enter the new booking date (YYYY-MM-DD):');
@@ -153,12 +182,13 @@ const MyBookings = () => {
                                     <td className='pr-0'>
                                         <div>
                                             <button
-                                                onClick={() => handleCancel(booking._id)}
+                                                onClick={() => handleCancel(booking._id, booking.roomId, booking.bookingDate)}
                                                 className="btn btn-error btn-sm mr-2"
                                             >
                                                 <TbMapCancel className='md:hidden flex' />
                                                 <span className='md:flex hidden'>Cancel</span>
                                             </button>
+
                                             <button
                                                 onClick={() => handleUpdateDate(booking?._id)}
                                                 className='btn btn-info btn-sm mr-2'>

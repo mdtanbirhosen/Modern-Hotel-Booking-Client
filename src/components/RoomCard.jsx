@@ -4,7 +4,7 @@ const RoomCard = ({ room }) => {
     return (
         <div>
             <Link to={`/roomDetailsPage/${room._id}`} >
-                <div className="card bg-base-100  shadow-xl transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
+                <div className="h-full card bg-base-100  shadow-xl transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                     <figure>
                         <img
                             className="object-cover h-[200px] w-full transition-transform duration-300 hover:scale-110"
@@ -33,12 +33,7 @@ const RoomCard = ({ room }) => {
                                 </ul>
                             </div>
                         )}
-                        {/* "Book Now" Button */}
-                        <div className="mt-4">
-                            <Link to={`/roomDetailsPage/${room._id}`}>
-                                <button className="btn btn-primary w-full">Book Now</button>
-                            </Link>
-                        </div>
+                        
                     </div>
                 </div>
             </Link>

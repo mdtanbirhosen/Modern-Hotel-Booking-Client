@@ -37,7 +37,7 @@ const RoomDetailsPage = () => {
             }
         };
         fetchRoomDetails();
-    }, [id, room._id]);
+    }, [id]);
 
     const { name, image, description, features, availability, price, rating } = room;
 
@@ -50,7 +50,7 @@ const RoomDetailsPage = () => {
         }
 
         const bookingDetails = {
-            roomId: id,
+            roomId: room._id,
             userEmail: user?.email,
             bookingDate,
             price,
