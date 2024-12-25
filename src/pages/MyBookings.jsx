@@ -7,6 +7,8 @@ import { TbMapCancel } from "react-icons/tb";
 import { TfiCommentsSmiley } from "react-icons/tfi";
 import { MdOutlineUpdate } from "react-icons/md";
 import moment from 'moment';
+import Lottie from 'lottie-react';
+import NoData from '../assets/NODataAnimation.json'
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
@@ -151,7 +153,10 @@ const MyBookings = () => {
         <div className=" ">
             <h1 className="text-2xl font-bold text-center mb-6">My Bookings</h1>
             {bookings?.length === 0 ? (
-                <p className="text-center text-gray-500">You have no bookings yet.</p>
+                <div className='grid justify-center space-y-4'>
+                    <p className="text-center text-gray-500">You have no bookings yet.</p>
+                    <Lottie className='w-[400px]' animationData={NoData}></Lottie>
+                </div>
             ) : (
                 <div className="overflow-x-auto">
                     <table className="table w-full bg-white rounded-lg shadow-md">

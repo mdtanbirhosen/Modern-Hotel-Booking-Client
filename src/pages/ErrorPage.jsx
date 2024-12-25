@@ -1,5 +1,6 @@
 import { Link, useRouteError } from 'react-router-dom';
 import { BiErrorCircle } from 'react-icons/bi';
+import { PacmanLoader } from 'react-spinners'
 
 const ErrorPage = () => {
     const error = useRouteError();
@@ -11,6 +12,7 @@ const ErrorPage = () => {
             <p className="text-lg text-gray-600 mb-8">
                 {error?.statusText || error?.message || "We can't find the page you're looking for."}
             </p>
+            <PacmanLoader />
             <Link to="/" className="btn btn-primary btn-wide">
                 Go Back Home
             </Link>
