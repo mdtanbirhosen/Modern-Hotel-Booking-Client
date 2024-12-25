@@ -19,11 +19,11 @@ const NavBar = () => {
             <div className="flex-1">
                 <a className="btn btn-ghost text-xl playwrite-font ">
                     <span className="relative flex items-center">
-                        <span className="text-4xl font-bold italic text-secondary-color leading-none drop-shadow-lg">M</span>
+                        <span className="text-4xl font-bold italic text-primary-color leading-none drop-shadow-lg">M</span>
                         <span className="text-xl">odern</span>
                     </span>
                     <span className="ml-2 relative  flex">
-                        <span className="text-4xl font-bold italic text-secondary leading-none drop-shadow-lg ">H</span>
+                        <span className="text-4xl font-bold italic text-primary-color leading-none drop-shadow-lg ">H</span>
                         <span className="text-xl">otel</span>
                     </span>
                 </a>

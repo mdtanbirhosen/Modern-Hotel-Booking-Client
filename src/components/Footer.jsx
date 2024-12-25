@@ -9,6 +9,16 @@ const Footer = () => {
                 <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* About Section */}
                     <div>
+                        <a className=" flex py-4 text-xl playwrite-font ">
+                            <span className="relative flex items-center">
+                                <span className="text-4xl font-bold italic text-secondary-color leading-none drop-shadow-lg">M</span>
+                                <span className="text-xl">odern</span>
+                            </span>
+                            <span className="ml-2 relative  flex">
+                                <span className="text-4xl font-bold italic text-secondary leading-none drop-shadow-lg ">H</span>
+                                <span className="text-xl">otel</span>
+                            </span>
+                        </a>
                         <h2 className="text-lg font-bold mb-4 text-white">About Us</h2>
                         <p className="text-sm">
                             Discover luxury and comfort at our hotel. Book your stay with us and experience a memorable journey.

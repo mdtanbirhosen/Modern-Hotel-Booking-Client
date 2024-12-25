@@ -7,7 +7,7 @@ function App() {
   const location = useLocation()
   console.log(location)
   return (
-    <div>
+    <div className="bg-bg-color">
 
       <Toaster position="top-right"></Toaster>
 
@@ -17,7 +17,7 @@ function App() {
       {
         location.pathname === '/' && <Banner></Banner>
       }
-      <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] px-2 py-5
+      <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] px-2 py-5 
        md:py-10">
         <Outlet></Outlet>
       </div>

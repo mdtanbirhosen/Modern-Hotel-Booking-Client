@@ -10,7 +10,6 @@ const RoomDetailsPage = () => {
     const { id } = useParams();
 
     const [room, setRoom] = useState({});
-    // eslint-disable-next-line no-unused-vars
     const [reviews, setReviews] = useState([]);
     const [bookingDate, setBookingDate] = useState("");
     const [showModal, setShowModal] = useState(false);

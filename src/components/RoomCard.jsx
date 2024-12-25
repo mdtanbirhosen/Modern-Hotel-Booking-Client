@@ -1,6 +1,17 @@
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 const RoomCard = ({ room }) => {
+    const [review, setReviews] = useState()
+    useEffect(() => {
+        const roomsReviews = async () => {
+            const getReviews = await fetch(`${import.meta.env.VITE_baseLink}/reviews/${room._id}`)
+            const reviewsData = await getReviews.json();
+            setReviews(reviewsData)
+        }
+        roomsReviews()
+    },[room?._id])
+    // console.log(review)
     return (
         <div>
             <Link to={`/roomDetailsPage/${room._id}`} >
@@ -13,7 +24,7 @@ const RoomCard = ({ room }) => {
                         />
                     </figure>
                     {/* Card Body */}
-                    <div className="card-body">
+                    <div className="card-body gap-0">
                         <h2 className="card-title text-primary-color">{room.name}</h2>
                         <p className="text-gray-500">{room.description?.slice(0, 100)}...</p>
                         <p>
@@ -21,6 +32,9 @@ const RoomCard = ({ room }) => {
                         </p>
                         <p>
                             <strong>Rating:</strong> {room.rating}/5
+                        </p>
+                        <p>
+                            <strong>Total Reviews:</strong> <span className="text-lg">{review.length}</span>
                         </p>
                         {/* Highlight Key Features */}
                         {room.features && room.features.length > 0 && (
@@ -33,7 +47,7 @@ const RoomCard = ({ room }) => {
                                 </ul>
                             </div>
                         )}
-                        
+
                     </div>
                 </div>
             </Link>

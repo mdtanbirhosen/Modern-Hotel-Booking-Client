@@ -16,7 +16,7 @@ const ErrorPage = () => {
                 {error?.statusText || error?.message || "We can't find the page you're looking for."}
             </p>
 
-            <Link to="/" className="btn btn-primary btn-wide">
+            <Link to="/" className="btn bg-primary-color text-white btn-wide">
                 Go Back Home
             </Link>
         </div>
