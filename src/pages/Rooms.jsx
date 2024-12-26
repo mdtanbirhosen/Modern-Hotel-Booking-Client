@@ -44,27 +44,31 @@ const Rooms = () => {
   return (
     <div className="p-5">
       {/* Filter Section */}
-      <div className="flex gap-4 mb-5 items-center">
-        <input
-          type="number"
-          placeholder="Min Price"
-          value={minPrice}
-          onChange={(e) => setMinPrice(e.target.value)}
-          className="input input-bordered w-36"
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          value={maxPrice}
-          onChange={(e) => setMaxPrice(e.target.value)}
-          className="input input-bordered w-36"
-        />
-        <button className="btn btn-primary" onClick={handleFilter}>
-          Filter
-        </button>
-        <button className="btn btn-secondary" onClick={handleReset}>
-          Reset
-        </button>
+      <div className="flex gap-4 mb-5 items-center flex-col md:flex-row">
+        <div className="flex gap-4">
+          <input
+            type="number"
+            placeholder="Min Price"
+            value={minPrice}
+            onChange={(e) => setMinPrice(e.target.value)}
+            className="input input-bordered w-36"
+          />
+          <input
+            type="number"
+            placeholder="Max Price"
+            value={maxPrice}
+            onChange={(e) => setMaxPrice(e.target.value)}
+            className="input input-bordered w-36"
+          />
+        </div>
+        <div className="flex gap-4">
+          <button className="btn btn-primary" onClick={handleFilter}>
+            Filter
+          </button>
+          <button className="btn btn-secondary" onClick={handleReset}>
+            Reset
+          </button>
+        </div>
       </div>
 
       {/* Rooms Display */}
