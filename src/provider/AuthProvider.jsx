@@ -80,7 +80,7 @@ const AuthProvider = ({ children }) => {
     // setup a observer and un mount observer
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            if (currentUser) {
+            if (currentUser?.email) {
                 setUser(currentUser);
                 // generate token
                 const { data } = await axios.post(`${import.meta.env.VITE_baseLink}/jwt`, { email: currentUser?.email }, {withCredentials: true})

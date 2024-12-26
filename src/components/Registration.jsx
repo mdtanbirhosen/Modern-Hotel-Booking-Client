@@ -141,7 +141,7 @@ const Registration = () => {
                 </form>
                 <p className="font-semibold mt-7 text-center">
                     Already Have An Account?{" "}
-                    <Link to={"/authentication"} className="text-red-500 link-hover">
+                    <Link to={"/authenticationPage"} className="text-red-500 link-hover">
                         Login
                     </Link>
                 </p>

@@ -10,8 +10,8 @@ const NavBar = () => {
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/rooms'}>Rooms</NavLink></li>
         <li><NavLink to={'/myBookings'}>My Bookings</NavLink></li>
-        <li><NavLink to={'/AboutUs'}>About Us</NavLink></li>
-        <li><NavLink to={'/ContactUs'}>Contact Us</NavLink></li>
+        <li><NavLink to={'/aboutUs'}>About Us</NavLink></li>
+        <li><NavLink to={'/contactUs'}>Contact Us</NavLink></li>
         {user ?
                             <li><button onClick={logOut} className="bg-red-500  font-bold ">Logout</button></li>
                             :
