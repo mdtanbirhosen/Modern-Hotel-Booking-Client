@@ -10,6 +10,7 @@ import moment from 'moment';
 import Lottie from 'lottie-react';
 import NoData from '../assets/NODataAnimation.json'
 import axios from 'axios';
+import Swal from 'sweetalert2'
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
@@ -43,43 +44,59 @@ const MyBookings = () => {
         const bookingMoment = moment(bookingDate, 'YYYY-MM-DD');
         const currentMoment = moment(); // Current date and time
         const cancelDeadline = bookingMoment.subtract(1, 'days'); // 1 day before the booking date
-
+    
         // Check if the current date is past the allowed cancellation deadline
         if (currentMoment.isAfter(cancelDeadline)) {
             toast.error('You can only cancel bookings at least 1 day before the booking date.');
             return;
         }
-
-        const confirm = window.confirm('Are you sure you want to cancel this booking?');
-        if (!confirm) return;
-
-        try {
-            const deleteBooking = await fetch(`${baseURL}/bookings/${id}`, {
-                method: 'DELETE',
-            });
-
-            if (deleteBooking.ok) {
-                // Update room availability to true
-                const updateAvailabilityResponse = await fetch(`
-                    ${import.meta.env.VITE_baseLink}/rooms/${updateTo}/availability`,
-                    {
-                        method: "PATCH",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ availability: true }),
+    
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then( async(result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+                try {
+                    const deleteBooking = await fetch(`${baseURL}/bookings/${id}`, {
+                        method: 'DELETE',
+                    });
+    
+                    if (deleteBooking.ok) {
+                        // Update room availability to true
+                        const updateAvailabilityResponse = await fetch(`
+                        ${import.meta.env.VITE_baseLink}/rooms/${updateTo}/availability`,
+                            {
+                                method: "PATCH",
+                                headers: { "Content-Type": "application/json" },
+                                body: JSON.stringify({ availability: true }),
+                            }
+                        );
+    
+                        if (updateAvailabilityResponse.ok) {
+                            setBookings((prev) => prev.filter((booking) => booking?._id !== id));
+                            toast.success('Booking canceled successfully!');
+                        }
+                    } else {
+                        throw new Error('Failed to delete booking');
                     }
-                );
-
-                if (updateAvailabilityResponse.ok) {
-                    setBookings((prev) => prev.filter((booking) => booking?._id !== id));
-                    toast.success('Booking canceled successfully!');
+                } catch (error) {
+                    console.error('Error canceling booking:', error);
+                    toast.error('Failed to cancel booking.');
                 }
-            } else {
-                throw new Error('Failed to delete booking');
             }
-        } catch (error) {
-            console.error('Error canceling booking:', error);
-            toast.error('Failed to cancel booking.');
-        }
+        });
+    
+    
     };
 
     const openReviewModal = (id, roomId) => {

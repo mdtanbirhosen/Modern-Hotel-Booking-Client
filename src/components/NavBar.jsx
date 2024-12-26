@@ -12,6 +12,11 @@ const NavBar = () => {
         <li><NavLink to={'/myBookings'}>My Bookings</NavLink></li>
         <li><NavLink to={'/AboutUs'}>About Us</NavLink></li>
         <li><NavLink to={'/ContactUs'}>Contact Us</NavLink></li>
+        {user ?
+                            <li><button onClick={logOut} className="bg-red-500  font-bold ">Logout</button></li>
+                            :
+                            <li><Link to={'/authenticationPage'} className="bg-green-500  font-bold "><button  >login</button></Link></li>
+                        }
 
     </>
     return (
@@ -47,11 +52,7 @@ const NavBar = () => {
                         tabIndex={0}
                         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-50 mt-3 w-52 p-2 shadow">
                         {links}
-                        {user ?
-                            <li><button onClick={logOut} className="bg-red-500  font-bold ">Logout</button></li>
-                            :
-                            <li><Link to={'/authenticationPage'} className="bg-green-500  font-bold "><button  >login</button></Link></li>
-                        }
+                        
                     </ul>
                 </div>
             </div>

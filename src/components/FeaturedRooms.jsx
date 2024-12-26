@@ -49,21 +49,11 @@ const FeaturedRooms = () => {
                             <p>
                                 <strong>Rating:</strong> {room.rating}/5
                             </p>
-                            {/* Highlight Key Features */}
-                            {room.features && room.features.length > 0 && (
-                                <div className="mt-2">
-                                    <strong>Features:</strong>
-                                    <ul className="list-disc ml-5 text-sm">
-                                        {room.features.slice(0, 3).map((feature, index) => (
-                                            <li key={index}>{feature}</li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
+                            
                             {/* "Book Now" Button */}
                             <div className="mt-4">
                                 <Link to={`/roomDetailsPage/${room._id}`}>
-                                    <button className="btn btn-primary w-full">Book Now</button>
+                                    <button className=" font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white w-full">Book Now</button>
                                 </Link>
                             </div>
                         </div>

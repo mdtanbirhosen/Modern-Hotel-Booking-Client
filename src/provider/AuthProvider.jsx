@@ -83,12 +83,12 @@ const AuthProvider = ({ children }) => {
             if (currentUser) {
                 setUser(currentUser);
                 // generate token
-                const { data } = await axios.post('http://localhost:5000/jwt', { email: currentUser?.email }, {withCredentials: true})
+                const { data } = await axios.post(`${import.meta.env.VITE_baseLink}/jwt`, { email: currentUser?.email }, {withCredentials: true})
                 console.log('token', data)
             }else{
                 setUser(currentUser)
                 // eslint-disable-next-line no-unused-vars
-                const { data } = await axios.get('http://localhost:5000/logout',  {withCredentials: true})
+                const { data } = await axios.get(`${import.meta.env.VITE_baseLink}/logout`,  {withCredentials: true})
             }
             setLoading(false);
         });

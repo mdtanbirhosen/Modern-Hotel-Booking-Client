@@ -133,14 +133,14 @@ const RoomDetailsPage = () => {
                         <button
                             onClick={() => setShowModal(true)}
                             disabled={!availability}
-                            className={`font-semibold text-lg ${availability ? "text-primary-color" : "text-gray-400"
+                            className={`font-semibold text-lg ${availability ? " font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white" : "text-gray-400 font-semibold  hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color "
                                 }`}
                         >
                             Book Now
                         </button> :
                         <Link to={'/authenticationPage'}>
                             <button
-                                className={`font-semibold text-lg ${availability ? "text-primary-color" : "text-gray-400"
+                                className={`font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white ${availability ? "text-primary-color" : "text-gray-400"
                                     }`}
                             >
                                 Book Now

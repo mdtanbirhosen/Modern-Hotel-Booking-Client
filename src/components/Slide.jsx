@@ -15,10 +15,10 @@ const Slide = ({ image, title, description }) => {
             {title}
           </h1>
           <br />
-          <p className='font-semibold text-white'>{description}</p>
+          <p className='font-semibold text-white mb-5'>{description}</p>
           <Link
             to='/rooms'
-            className='btn mt-3 '
+            className=" font-semibold text-primary-color bg-white px-7 py-3 rounded-xl  border-2 hover:bg-primary-color hover:text-white "
           >
             Explore All Rooms
           </Link>

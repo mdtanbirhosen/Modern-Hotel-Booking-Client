@@ -40,14 +40,14 @@ const Registration = () => {
                         toast.success('Register successfully done')
                     })
                     .catch(error => {
-                        console.log(error.message)
                         toast.error(error.message)
                     })
-                
+
                 navigate("/");
             })
             .catch((error) => {
-                console.error(error);
+                toast.error(error.message)
+
             });
     };
     // sign in with google
@@ -56,7 +56,7 @@ const Registration = () => {
             .then(result => {
                 console.log(result)
                 navigate('/')
-                toast.success('Register successfully done')
+                toast.success('Registration successfully done')
             })
             .catch(error => {
                 toast.error(error?.message)

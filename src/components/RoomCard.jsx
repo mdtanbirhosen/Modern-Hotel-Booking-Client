@@ -34,7 +34,7 @@ const RoomCard = ({ room }) => {
                             <strong>Rating:</strong> {room.rating}/5
                         </p>
                         <p>
-                            <strong>Total Reviews:</strong> <span className="text-lg">{review.length}</span>
+                            <strong>Total Reviews:</strong> <span className="text-lg">{review?.length}</span>
                         </p>
                         {/* Highlight Key Features */}
                         {room.features && room.features.length > 0 && (
