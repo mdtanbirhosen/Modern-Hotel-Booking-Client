@@ -4,11 +4,14 @@ import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { AuthContext } from "../provider/AuthProvider";
 import Review from "../components/Review";
+import axios from "axios";
+import Rating from 'react-rating-stars-component';
 
 const RoomDetailsPage = () => {
     const { user } = useContext(AuthContext)
     const { id } = useParams();
-
+    const [newRating, setNewRating] = useState(0);
+    const [comment, setComment] = useState('');
     const [room, setRoom] = useState({});
     const [reviews, setReviews] = useState([]);
     const [bookingDate, setBookingDate] = useState("");
@@ -40,7 +43,6 @@ const RoomDetailsPage = () => {
 
     const { name, image, description, features, availability, price, rating } = room;
 
-    // Handle Booking Confirmation
     // Handle Booking Confirmation
     const handleBooking = async () => {
         if (!bookingDate) {
@@ -93,12 +95,80 @@ const RoomDetailsPage = () => {
     };
 
 
+    // get review if user logged in and booked the room
+    const handleGetReview = async () => {
+        if (user?.email) {
+            try {
+                // Fetch bookings for the logged-in user
+                const getBookingsData = await axios.get(
+                    `${import.meta.env.VITE_baseLink}/bookings/?email=${user?.email}`,
+                    { withCredentials: true }
+                );
+
+                // Check if the roomId from bookings matches the current room's id
+                const bookings = getBookingsData.data;
+                const matchingBooking = bookings.find((booking) => booking.roomId === id);
+
+                if (matchingBooking) {
+                    // after all formalities of rating
+                    const handleSubmitReview = async () => {
+                        if (!newRating || !comment) {
+                            toast.error('Please provide a rating and comment.');
+                            return;
+                        }
+
+
+                        // Get the current date and time
+                        const reviewDate = new Date().toISOString();
+
+                        try {
+                            const response = await fetch(`${import.meta.env.VITE_baseLink}/reviews`, {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    bookingId: matchingBooking?._id,
+                                    roomId: id,
+                                    username: user?.displayName,
+                                    rating,
+                                    comment,
+                                    date: reviewDate, // Include the date
+                                }),
+                            });
+
+                            if (response.ok) {
+                                toast.success('Review added successfully!');
+                                document.getElementById('my_modal_1').close()
+                            } else {
+                                throw new Error('Failed to add review');
+                            }
+                        } catch (error) {
+                            console.error('Error submitting review:', error);
+                            toast.error('Failed to submit review.');
+                        }
+                    };
+                    handleSubmitReview()
+                } else {
+                    toast.error("Please book a room for giving review.");
+                }
+            } catch (error) {
+                console.error("Error fetching bookings:", error);
+            }
+        } else {
+            toast.error('Please Log in first');
+        }
+    };
+
+
+
+
     return (
         <div>
             {/* Room Details */}
-            <div className="md:flex gap-5">
-                <div>
-                    <img src={image} alt={name} />
+            <div className="md:flex gap-5 bg-white p-2 md:p-5 rounded-lg mx-2">
+                <div className=" md:w-1/2">
+                    <img
+                        className="rounded-lg"
+                        src={image} alt={name} />
                 </div>
                 <div className="w-1/2 space-y-4">
                     <h2 className="md:flex items-center text-3xl font-bold text-primary-color ">
@@ -150,11 +220,17 @@ const RoomDetailsPage = () => {
 
             {/* Reviews Section */}
             <div className="mt-10">
-                <h2 className="text-2xl font-semibold">Reviews</h2>
+                <h2 className="text-3xl font-semibold text-center">Reviews</h2>
                 {reviews.length > 0 ? (
-                    reviews.map((review) => (
-                        <Review key={review._id} review={review}></Review>
-                    ))
+                    <div>
+
+                        {reviews.map((review) => (
+                            <Review key={review._id} review={review}></Review>
+                        ))}
+                        <div className="mt-3">
+                            <button onClick={() => document.getElementById('my_modal_1').showModal()} className="font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white">Get Review</button>
+                        </div>
+                    </div>
                 ) : (
                     <div>
                         <h3 className="text-gray-500">No reviews available for this room.</h3>
@@ -164,10 +240,22 @@ const RoomDetailsPage = () => {
                         <p>3. Go to My bookings page</p>
                         <p>4. Click on Review button </p>
                         <p>5. Write your feedback </p>
+                        <div>
+                            <button onClick={() => document.getElementById('my_modal_1').showModal()} className="font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white">Get Review</button>
+                        </div>
                     </div>
 
                 )}
             </div>
+
+
+
+
+
+
+
+
+
 
             {/* Booking Modal */}
             {showModal && (
@@ -209,6 +297,55 @@ const RoomDetailsPage = () => {
                     </div>
                 </dialog>
             )}
+
+
+
+            {/* review modal */}
+
+            <dialog id="my_modal_1" className="modal">
+                <div className="modal-box">
+                    <h2 className="text-xl font-bold mb-4">Submit a Review</h2>
+                    <div className="mb-4">
+                        <label className="block font-medium mb-2">Username</label>
+                        <input
+                            type="text"
+                            value={user?.displayName}
+                            readOnly
+                            className="input input-bordered w-full"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block font-medium mb-2">Rating</label>
+                        <Rating
+                            count={5}
+                            size={24}
+                            activeColor="#ffd700"
+                            value={newRating}
+                            onChange={(rat) => setNewRating(rat)}
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block font-medium mb-2">Comment</label>
+                        <textarea
+                            className="textarea textarea-bordered w-full"
+                            rows="3"
+                            value={comment}
+                            onChange={(e) => setComment(e.target.value)}
+                        ></textarea>
+                    </div>
+
+                    <div className="modal-action">
+                        <button onClick={() => document.getElementById('my_modal_1').close()} className="btn btn-secondary mr-2">
+                            Cancel
+                        </button>
+                        <button onClick={handleGetReview} className="btn btn-primary">
+    Submit
+</button>
+
+
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 };

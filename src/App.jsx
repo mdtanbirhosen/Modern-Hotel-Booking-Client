@@ -42,7 +42,7 @@ function App() {
 
       {location.pathname === "/" && <Banner />}
 
-      <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] py-5 md:py-10">
+      <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] py-5 md:py-10 px-3">
         <Outlet />
       </div>
 

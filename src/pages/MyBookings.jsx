@@ -25,7 +25,6 @@ const MyBookings = () => {
 
     useEffect(() => {
         // Fetch user's bookings
-        // changed
         const fetchBookings = async () => {
             try {
                 const response = await axios.get(`${baseURL}/bookings/?email=${user?.email}`, {withCredentials: true});
