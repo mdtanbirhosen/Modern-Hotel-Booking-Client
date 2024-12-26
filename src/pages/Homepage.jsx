@@ -1,7 +1,8 @@
-
 import AllReview from "../components/AllReview";
 import FeaturedRooms from "../components/FeaturedRooms";
 import MapContent from "../components/MapContent";
+import OurCommitment from "../components/OurCommitment";
+import OurProduct from "../components/OurProduct";
 
 const Homepage = () => {
     return (
@@ -18,9 +19,8 @@ const Homepage = () => {
                 <AllReview></AllReview>
             </section>
             {/* two extra sections here */}
-
-
-
+            <OurCommitment></OurCommitment>
+            <OurProduct></OurProduct>
         </div>
     );
 };

@@ -2,7 +2,8 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { auth } from "../firebase/firebase.config";
-import {toast} from "react-hot-toast"
+import { toast } from "react-hot-toast"
+import axios from "axios";
 
 
 
@@ -12,9 +13,9 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    
 
-    
+
+
 
 
     // create a user with user an password
@@ -73,20 +74,29 @@ const AuthProvider = ({ children }) => {
         return updateProfile(auth.currentUser, { displayName: name, photoURL: photo })
     }
 
-   
+
 
 
     // setup a observer and un mount observer
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-            setUser(currentUser);
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+            if (currentUser) {
+                setUser(currentUser);
+                // generate token
+                const { data } = await axios.post('http://localhost:5000/jwt', { email: currentUser?.email }, {withCredentials: true})
+                console.log('token', data)
+            }else{
+                setUser(currentUser)
+                // eslint-disable-next-line no-unused-vars
+                const { data } = await axios.get('http://localhost:5000/logout',  {withCredentials: true})
+            }
             setLoading(false);
         });
         return () => unsubscribe();
     }, []);
 
     const authInfo = {
-        
+
         user,
         setUser,
         createNewUser,

@@ -2,9 +2,10 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { AuthContext } from "../provider/AuthProvider";
+import toast from "react-hot-toast";
 
 const Registration = () => {
-    const { createNewUser, setUser, loginUserWithGoogle ,updateProfileInfo} = useContext(AuthContext);
+    const { createNewUser, setUser, loginUserWithGoogle, updateProfileInfo } = useContext(AuthContext);
     const navigate = useNavigate();
     const [passwordError, setPasswordError] = useState("");
 
@@ -34,11 +35,15 @@ const Registration = () => {
         createNewUser(email, password)
             .then((result) => {
                 setUser(result.user);
-                updateProfileInfo(name,photo)
-                .then(()=>{
-                    // don't need to console 
-                })
-                .catch(error =>console.log(error.message))
+                updateProfileInfo(name, photo)
+                    .then(() => {
+                        toast.success('Register successfully done')
+                    })
+                    .catch(error => {
+                        console.log(error.message)
+                        toast.error(error.message)
+                    })
+                
                 navigate("/");
             })
             .catch((error) => {
@@ -51,6 +56,10 @@ const Registration = () => {
             .then(result => {
                 console.log(result)
                 navigate('/')
+                toast.success('Register successfully done')
+            })
+            .catch(error => {
+                toast.error(error?.message)
             })
     }
     return (

@@ -37,7 +37,7 @@ const AllReview = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto my-10">
+        <div className="max-w-4xl w-full mx-auto my-10 overflow-hidden">
             <h2 className="text-3xl font-bold text-center mb-6">What Our Users Say</h2>
             {reviews.length > 0 ? (
                 <Slider {...settings}>

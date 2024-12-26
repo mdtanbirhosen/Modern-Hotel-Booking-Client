@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate,  } from "react-router-dom";
 import { AuthContext } from "../provider/AuthProvider";
 import { FcGoogle } from "react-icons/fc";
+import toast from "react-hot-toast";
 // import Swal from 'sweetalert2'
 // import toast from "react-hot-toast";
 const Login = () => {
@@ -21,11 +22,11 @@ const Login = () => {
                 form.email.value = ''
                 form.password.value = ''
                 navigate(location?.state ? location.state : '/')
-
+                toast.success('Login Successfully.')
             })
             .catch(error => {
                 console.log(error)
-                // toast.error(error.message)
+                toast.error(error.message)
                 
             })
     }
@@ -34,12 +35,11 @@ const Login = () => {
         loginUserWithGoogle()
             .then(result => {
                 console.log(result)
-                // Swal.fire({
-                //     title: "Good job!",
-                //     text: "You clicked the button!",
-                //     icon: "success"
-                //   });
+                toast.success('Login Successfully.')
                 navigate(location?.state ? location.state : '/')
+            })
+            .catch(error => {
+                toast.error(error.message)
             })
     }
     return (

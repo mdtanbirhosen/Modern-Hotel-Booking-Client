@@ -9,6 +9,7 @@ import { MdOutlineUpdate } from "react-icons/md";
 import moment from 'moment';
 import Lottie from 'lottie-react';
 import NoData from '../assets/NODataAnimation.json'
+import axios from 'axios';
 const MyBookings = () => {
     const { user } = useContext(AuthContext);
     const [bookings, setBookings] = useState([]);
@@ -18,17 +19,20 @@ const MyBookings = () => {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const baseURL = import.meta.env.VITE_baseLink;
+    const [updateId, setUpdateId] = useState('')
+    const [updateDate, setUpdateDate] = useState('')
 
     useEffect(() => {
         // Fetch user's bookings
+        // changed
         const fetchBookings = async () => {
             try {
-                const response = await fetch(`${baseURL}/bookings/?email=${user?.email}`);
-                const data = await response.json();
+                const response = await axios.get(`${baseURL}/bookings/?email=${user?.email}`, {withCredentials: true});
+                const {data} = response;
                 setBookings(data || []);
             } catch (error) {
                 console.error('Error fetching bookings:', error);
-                toast.error('Failed to fetch bookings.');
+                toast.error(error.message);
             }
         };
         fetchBookings();
@@ -39,32 +43,32 @@ const MyBookings = () => {
         const bookingMoment = moment(bookingDate, 'YYYY-MM-DD');
         const currentMoment = moment(); // Current date and time
         const cancelDeadline = bookingMoment.subtract(1, 'days'); // 1 day before the booking date
-    
+
         // Check if the current date is past the allowed cancellation deadline
         if (currentMoment.isAfter(cancelDeadline)) {
             toast.error('You can only cancel bookings at least 1 day before the booking date.');
             return;
         }
-    
+
         const confirm = window.confirm('Are you sure you want to cancel this booking?');
         if (!confirm) return;
-    
+
         try {
             const deleteBooking = await fetch(`${baseURL}/bookings/${id}`, {
                 method: 'DELETE',
             });
-    
+
             if (deleteBooking.ok) {
                 // Update room availability to true
-                const updateAvailabilityResponse = await fetch(
-                    `${import.meta.env.VITE_baseLink}/rooms/${updateTo}/availability`,
+                const updateAvailabilityResponse = await fetch(`
+                    ${import.meta.env.VITE_baseLink}/rooms/${updateTo}/availability`,
                     {
                         method: "PATCH",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ availability: true }),
                     }
                 );
-    
+
                 if (updateAvailabilityResponse.ok) {
                     setBookings((prev) => prev.filter((booking) => booking?._id !== id));
                     toast.success('Booking canceled successfully!');
@@ -123,20 +127,20 @@ const MyBookings = () => {
 
 
     const handleUpdateDate = async (id) => {
-        const newDate = prompt('Enter the new booking date (YYYY-MM-DD):');
-        if (!newDate) return;
+        console.log(id)
+        if(!updateDate) toast.error('please set a date')
 
         try {
             const response = await fetch(`${baseURL}/bookings/${id}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ bookingDate: newDate }),
+                body: JSON.stringify({ bookingDate: updateDate }),
             });
 
             if (response?.ok) {
                 setBookings((prev) =>
                     prev.map((booking) =>
-                        booking?._id === id ? { ...booking, bookingDate: newDate } : booking
+                        booking?._id === id ? { ...booking, bookingDate: updateDate } : booking
                     )
                 );
                 toast.success('Booking date updated successfully!');
@@ -148,6 +152,7 @@ const MyBookings = () => {
             toast.error('Failed to update booking date.');
         }
     };
+
 
     return (
         <div className=" ">
@@ -195,7 +200,10 @@ const MyBookings = () => {
                                             </button>
 
                                             <button
-                                                onClick={() => handleUpdateDate(booking?._id)}
+                                                onClick={() => {
+                                                    setUpdateId(booking?._id)
+                                                    document.getElementById('my_modal_1').showModal()
+                                                }}//handleUpdateDate(booking?._id)
                                                 className='btn btn-info btn-sm mr-2'>
 
                                                 <MdOutlineUpdate className='md:hidden flex' />
@@ -264,6 +272,29 @@ const MyBookings = () => {
                     </button>
                 </div>
             </ReactModal>
+
+            {/* UpdateDateModal */}
+            <dialog id="my_modal_1" className="modal">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Enter new date.</h3>
+                    <input
+                        type="date"
+                        id="bookingDate"
+                        value={updateDate}
+                        onChange={(e) => setUpdateDate(e.target.value)}
+                        className="block border border-gray-300 rounded-md p-2 mt-2 w-full"
+                    />
+                    <div className="modal-action">
+
+                        {/* if there is a button in form, it will close the modal */}
+                        <button onClick={() => {
+                            handleUpdateDate(updateId)
+                            document.getElementById('my_modal_1').close()
+                        }}>Update</button>
+                        <button onClick={() => document.getElementById('my_modal_1').close()} className="btn">Cancel</button>
+                    </div>
+                </div>
+            </dialog>
         </div>
     );
 };
