@@ -50,11 +50,11 @@ const router = createBrowserRouter([
             },
             {
                 path:'/aboutUs',
-                element:<AboutUs></AboutUs>
+                element:<PrivateRoutes><AboutUs></AboutUs></PrivateRoutes>
             },
             {
                 path:'/contactUs',
-                element:<ContactUs></ContactUs>
+                element:<PrivateRoutes><ContactUs></ContactUs></PrivateRoutes>
             }
 
             

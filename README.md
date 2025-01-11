@@ -1,8 +1,44 @@
-# React + Vite
+# Modern Hotel Booking Platform
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Live URL
+[Visit Here](https://modern-hotel-booking-platform.web.app/)
 
-Currently, two official plugins are available:
+## Project Overview
+This project is a modern, responsive hotel booking platform with secure user authentication and engaging features.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Key Features
+- **Homepage**: Attractive banner, map integration, featured rooms, and special offers.
+- **Rooms Page**: View all rooms, filter by price, and detailed room information.
+- **Booking System**: Book rooms, update bookings, and cancel reservations.
+- **Review System**: Post and view reviews for booked rooms.
+- **Authentication**: Secure login and registration with JWT-based private routes.
+- **Responsive Design**: Optimized for mobile, tablet, and desktop.
+
+## Technologies Used
+- **Frontend**: React, React Router, React Helmet, Framer Motion
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Authentication**: Firebase with JWT
+
+## Installation
+1. Clone the repositories:
+   ```bash
+   git clone [client-repo-link]
+   git clone [server-repo-link]
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Add environment variables for Firebase and MongoDB.
+4. Run the development servers:
+   ```bash
+   npm start
+   ```
+
+## Deployment
+Ensure environment variables are secure. Deployed using Firebase (Frontend) and [Backend Hosting Platform].
+
+---
+Thank you for exploring the **Modern Hotel Booking Platform**!
+

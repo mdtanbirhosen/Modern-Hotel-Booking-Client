@@ -52,7 +52,7 @@ const Footer = () => {
                                 </>
                             }
                         </ul>
-                    </div>
+                    </div>released
 
                     {/* Contact & Social Section */}
                     <div>
