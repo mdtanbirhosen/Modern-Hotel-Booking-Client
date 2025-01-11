@@ -10,11 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emailjs/browser": "^4.4.1",
     "axios": "^1.7.9",
     "cookie-parser": "^1.4.7",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
-    "framer-motion": "^11.15.0",
+    "framer-motion": "^11.17.0",
     "google-map-react": "^2.2.1",
     "leaflet": "^1.9.4",
     "localforage": "^1.10.0",
@@ -39,7 +40,7 @@
     "react-spinners": "^0.15.0",
     "slick-carousel": "^1.8.1",
     "sort-by": "^0.0.2",
-    "sweetalert2": "^11.15.3",
+    "sweetalert2": "^11.15.10",
     "swiper": "^11.1.15"
   },
   "devDependencies": {

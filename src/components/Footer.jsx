@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { useContext } from 'react';
+import { AuthContext } from '../provider/AuthProvider';
 
 const Footer = () => {
+    const { user } = useContext(AuthContext)
     return (
         <footer className="bg-gray-800 text-gray-300 py-8">
             <div className="max-w-7xl mx-auto px-3">
@@ -35,15 +38,19 @@ const Footer = () => {
                             <li className="mb-2">
                                 <Link to="/rooms" className="hover:text-white">Rooms</Link>
                             </li>
-                            <li className="mb-2">
-                                <Link to="/my-bookings" className="hover:text-white">My Bookings</Link>
-                            </li>
-                            <li className="mb-2">
-                                <Link to="/contact" className="hover:text-white">Contact Us</Link>
-                            </li>
-                            <li>
-                                <Link to="/about" className="hover:text-white">About Us</Link>
-                            </li>
+                            {
+                                user && <>
+                                    <li className="mb-2">
+                                        <Link to="/myBookings" className="hover:text-white">My Bookings</Link>
+                                    </li>
+                                    <li className="mb-2">
+                                        <Link to="/contactUs" className="hover:text-white">Contact Us</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/aboutUs" className="hover:text-white">About Us</Link>
+                                    </li>
+                                </>
+                            }
                         </ul>
                     </div>
 

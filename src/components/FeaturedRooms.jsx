@@ -14,7 +14,7 @@ const FeaturedRooms = () => {
                 const topRatedRooms = data
                     .filter((room) => room.rating >= 4.5)
                     .sort((a, b) => b.rating - a.rating)
-                    .slice(0, 6);
+                    .slice(0, 8);
 
                 setRooms(topRatedRooms);
             } catch (error) {
@@ -28,7 +28,7 @@ const FeaturedRooms = () => {
     return (
         <div className="py-10">
             <h2 className="text-3xl font-bold text-center mb-8">Featured Rooms</h2>
-            <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-5 px-1 md:px-0">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-1 md:px-0">
                 {rooms.map((room) => (
                     <div key={room._id} className="card bg-base-100 shadow-xl transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl">
                         {/* Room Image */}

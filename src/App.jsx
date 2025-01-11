@@ -38,12 +38,16 @@ function App() {
 
       <Toaster position="top-right" />
 
-      <NavBar />
+      <div className="fixed top-0 z-20 w-full ">
+        <NavBar />
+      </div>
 
-      {location.pathname === "/" && <Banner />}
+      <div className="mt-20">
+        {location.pathname === "/" && <Banner />}
 
-      <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] py-5 md:py-10 px-3">
-        <Outlet />
+        <div className="max-w-7xl mx-auto min-h-[calc(100vh-200px)] py-5 md:py-10 px-3">
+          <Outlet />
+        </div>
       </div>
 
       <Footer />
