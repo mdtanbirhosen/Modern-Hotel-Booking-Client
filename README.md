@@ -23,8 +23,8 @@ This project is a modern, responsive hotel booking platform with secure user aut
 ## Installation
 1. Clone the repositories:
    ```bash
-   git clone [client-repo-link]
-   git clone [server-repo-link]
+   git clone [https://github.com/mdtanbirhosen/Modern-Hotel-Booking-Client]
+   git clone [https://github.com/mdtanbirhosen/Modern-Hotel-Booking-Server]
    ```
 2. Install dependencies:
    ```bash
@@ -35,9 +35,6 @@ This project is a modern, responsive hotel booking platform with secure user aut
    ```bash
    npm start
    ```
-
-## Deployment
-Ensure environment variables are secure. Deployed using Firebase (Frontend) and [Backend Hosting Platform].
 
 ---
 Thank you for exploring the **Modern Hotel Booking Platform**!
