@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaGithub, FaLinkedin } from 'react-icons/fa';
 import { useContext } from 'react';
 import { AuthContext } from '../provider/AuthProvider';
 
@@ -52,7 +52,7 @@ const Footer = () => {
                                 </>
                             }
                         </ul>
-                    </div>released
+                    </div>
 
                     {/* Contact & Social Section */}
                     <div>
@@ -63,18 +63,19 @@ const Footer = () => {
                             Phone: +123 456 7890
                         </p>
                         <div className="flex space-x-4">
-                            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
+                            <a href="https://www.facebook.com/danger.ahaed.sstanbir.001/" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
                                 <FaFacebook />
                             </a>
-                            <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
+                            <a href="https://x.com/Mdtanbirhosen81" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
                                 <FaTwitter />
                             </a>
-                            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
-                                <FaInstagram />
+                            <a href="https://github.com/mdtanbirhosen" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
+                                <FaGithub />
                             </a>
-                            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
-                                <FaYoutube />
+                            <a href="https://www.linkedin.com/in/md-tanbir-hosen/" target="_blank" rel="noopener noreferrer" className="text-xl hover:text-white">
+                                <FaLinkedin />
                             </a>
+                            
                         </div>
                     </div>
                 </div>
