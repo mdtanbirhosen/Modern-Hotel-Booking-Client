@@ -22,7 +22,7 @@ const OurProduct = () => {
 
                     className="relative  overflow-hidden shadow-lg group lg:col-span-5">
                     <img
-                        src='https://thumbs.dreamstime.com/b/modern-bedroom-natural-light-cozy-decor-garden-view-large-arched-window-featuring-neutral-tones-stylish-346932393.jpg'
+                        src='https://www.turenne.com/media/cache/jadro_resize/rc/p35z1T8e1709124243/jadroRoot/medias/5cc700adbfa0b/5cc7027f17b8d/chambre-triple-pre-mium.jpg'
                         alt=''
                         className="w-full h-64 object-cover transition-transform duration-300 transform group-hover:scale-110"
                     />
