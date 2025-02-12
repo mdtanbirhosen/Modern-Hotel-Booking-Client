@@ -74,9 +74,9 @@ const Rooms = () => {
         </div>
 
         {/* Sort Dropdown */}
-        <div className="flex gap-5 items-center">
+        <div className="flex gap-5 mb-5 items-center">
           <p className="text-xl">Sort By</p>
-          <div className="dropdown">
+          <div className="dropdown ">
             <div tabIndex={0} className="btn btn-primary">
               {sortOrder === "normal" ? "Sort: Normal" :
               sortOrder === "asc" ? "Sort: Ascending" : "Sort: Descending"}
