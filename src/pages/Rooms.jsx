@@ -3,7 +3,7 @@ import RoomCard from "../components/RoomCard";
 
 const Rooms = () => {
   const [rooms, setRooms] = useState([]);
-  const [descending, setDescending] = useState(false);
+  const [sortOrder, setSortOrder] = useState("normal"); // Sorting state
   const [minPrice, setMinPrice] = useState(""); // Minimum price state
   const [maxPrice, setMaxPrice] = useState(""); // Maximum price state
 
@@ -72,14 +72,34 @@ const Rooms = () => {
             </button>
           </div>
         </div>
+
+        {/* Sort Dropdown */}
         <div className="flex gap-5 items-center">
-          <p className="text-xl">Sort Now</p>
-          <button
-            onClick={() => setDescending(!descending)}
-            className="font-semibold hover:text-primary-color hover:bg-white px-7 py-3 rounded-xl  border-2 bg-primary-color text-white"
-          >
-            {descending ?  "Normal" :"Sort Ascending"}
-          </button>
+          <p className="text-xl">Sort By</p>
+          <div className="dropdown">
+            <div tabIndex={0} className="btn btn-primary">
+              {sortOrder === "normal" ? "Sort: Normal" :
+              sortOrder === "asc" ? "Sort: Ascending" : "Sort: Descending"}
+            </div>
+            <ul
+              tabIndex={0}
+              className="dropdown-content menu p-2 shadow bg-base-100 z-50 rounded-box w-52"
+            >
+              <li>
+                <button onClick={() => setSortOrder("normal")}>Normal</button>
+              </li>
+              <li>
+                <button onClick={() => setSortOrder("asc")}>
+                  Rating: Low to High
+                </button>
+              </li>
+              <li>
+                <button onClick={() => setSortOrder("desc")}>
+                  Rating: High to Low
+                </button>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
 
@@ -87,9 +107,11 @@ const Rooms = () => {
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 px-1 md:px-0">
         {rooms.length ? (
           [...rooms]
-            .sort((a, b) =>
-              descending ? b.rating - a.rating : a.rating - b.rating
-            )
+            .sort((a, b) => {
+              if (sortOrder === "asc") return a.rating - b.rating;
+              if (sortOrder === "desc") return b.rating - a.rating;
+              return 0; // No sorting (normal state)
+            })
             .map((room) => <RoomCard key={room._id} room={room} />)
         ) : (
           <p className="text-center col-span-full text-gray-500">
