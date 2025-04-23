@@ -1,9 +1,9 @@
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, sendPasswordResetEmail, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { auth } from "../firebase/firebase.config";
 import { toast } from "react-hot-toast"
 import axios from "axios";
+import { auth } from "../firebase/firebase.config";
 
 
 
