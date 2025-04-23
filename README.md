@@ -1,7 +1,7 @@
 # Modern Hotel Booking Platform
 
 ## Live URL
-[Visit Here](https://modern-hotel-booking-platform.web.app/)
+[Visit Here](https://modern-hotel-booking-client.vercel.app/)
 
 ## Project Overview
 This project is a modern, responsive hotel booking platform with secure user authentication and engaging features.
